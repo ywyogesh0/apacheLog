@@ -46,11 +46,11 @@ object SqlAnalytics {
   def log_analytics_1(spark: SparkSession) {
 
     ds2.filter(log => {
+      
       val iUrl = log.url.toLowerCase()
       !(iUrl.endsWith(".jpg") || iUrl.endsWith(".jpeg"))
-    })
-
-    ds2.createOrReplaceTempView("log_2")
+    
+    }).createOrReplaceTempView("log_2")
 
     // Windowing for 24 hours
     val logAnalytics1_1 = spark.sql("SELECT date, url, count(1) AS count FROM log_2 GROUP BY date, url ORDER BY date, count DESC").as[Temp1]
